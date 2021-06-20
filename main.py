@@ -7,10 +7,10 @@ app.secret_key = "super_secret"
 
 @app.route("/")
 def hello():
-    return redirect("http://127.0.0.1:5000/v1/sanitized/")
+    return redirect("http://127.0.0.1:5000/v1/sanitized")
 
 
-@app.route("/v1/sanitized/", methods=['GET', 'POST'])
+@app.route("/v1/sanitized", methods=['GET', 'POST'])
 def login():
     result = [{"result": "sanitized"}, {"result": "unsanitized"}]
     if request.method == 'POST':
