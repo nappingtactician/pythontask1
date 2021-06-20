@@ -1,10 +1,16 @@
-from flask import Flask, request, session, render_template
+from flask import Flask, request, session, render_template, redirect
 import sqlite3
 
 app = Flask(__name__)
 app.secret_key = "super_secret"
 
-@app.route("/", methods=['GET', 'POST'])
+
+@app.route("/")
+def hello():
+    return redirect("http://127.0.0.1:5000/v1/sanitized/")
+
+
+@app.route("/v1/sanitized/", methods=['GET', 'POST'])
 def login():
     result = [{"result": "sanitized"}, {"result": "unsanitized"}]
     if request.method == 'POST':
