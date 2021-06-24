@@ -1,6 +1,6 @@
-from flask import Flask, request, session, redirect, render_template, jsonify,make_response
+from flask import Flask, request, session, redirect, render_template, jsonify, make_response
 import sqlite3
-import json
+
 
 app = Flask(__name__)
 app.secret_key = "super_secret"
@@ -29,11 +29,19 @@ def payload():
         else:
             return jsonify(result[1])
 
+
+def testing(username, password):
+    result = [{"result": "sanitized"}, {"result": "unsanitized"}]
     con = sqlite3.connect('accounts.db')
     cur = con.cursor()
-    cur.execute("SELECT * FROM accounts WHERE username = 'pranal@gmail.com' AND password = 'pranal123'")
-
-    return jsonify(result[0])
+    sql = "SELECT * FROM accounts WHERE username = ? AND password = ?"
+    cur.execute(sql,(username,password))
+    account = cur.fetchone()
+    if account:
+        session['logged'] = True
+        return result[0]
+    else:
+        return result[1]
 
 
 if __name__ == '__main__':
